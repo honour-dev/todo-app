@@ -29,14 +29,14 @@ const Todo = () => {
         Website todo
         </h2>
         <div className='border-green-800 border-2 p-[2rem]'>
-          <div className="mt-5 mb-6 ">
+          <ul  className="mt-5 mb-6 list-disc pl-2">
             {tasks.map((task)=>(
-              <div key={task.id} className='text-[1.1rem]  flex justify-between items-center'>
-                <p className='font-medium'>{task.text}</p>
-                <FaTrashAlt className='text-red-700 cursor-pointer' onClick={()=>removeTask(task.id)}/>
-              </div>              
+              <li key={task.id} className='text-[1.1rem] flex-1 flex justify-between items-center'>
+                <li className='font-medium whitespace-normal text-left'>{task.text}</li>
+                <FaTrashAlt className='text-red-700 cursor-pointer items-start shrink-0' onClick={()=>removeTask(task.id)}/>          
+              </li>
             ))}
-          </div>
+          </ul>
           <div>
             <input type="text" placeholder='Enter a task...' id='taskInput' className='border-2 border-green-800 pl-1 rounded-md ml-2 p-[.2rem] mb-3'/>
             <button className='bg-green-800 text-white pl-3 pr-3 p-1 ml-2 font-medium cursor-pointer hover:bg-green-600 duration-300 rounded-3xl' onClick={addTask}>+ Add task</button>
