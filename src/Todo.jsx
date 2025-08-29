@@ -22,6 +22,15 @@ const Todo = () => {
     setTasks(tasks.filter((task)=>task.id !== id));
   }
 
+  const handleCheck = (e) =>{
+    const checked = e.target.checked;
+
+    checked ? e.target.parentElement.style.textDecoration = 'line-through' : e.target.parentElement.style.textDecoration = 'none';
+    // if(e.target.checked){
+    //   e.target.parentElement.style.textDecoration = 'line-through';
+    //   e.target.parentElement.style.color = 'gray';
+    }
+
   return (
     <main className='text-center flex h-screen'>
       <article className='place-content-center m-auto max-w-xl pl-4 pr-4'>
@@ -33,7 +42,7 @@ const Todo = () => {
             {tasks.map((task)=>(
               <div key={task.id} className='text-[1.1rem] flex-1 flex justify-between items-center'>
                 <p className='font-medium whitespace-normal text-left'>
-                  <input type="checkbox" />
+                  <input type="checkbox" className='mr-1' onClick={handleCheck}/>
                   {task.text}
                 </p>
                 <FaTrashAlt className='text-red-700 cursor-pointer items-start shrink-0' onClick={()=>removeTask(task.id)}/>          
@@ -50,4 +59,4 @@ const Todo = () => {
   )
 }
 
-export default Todo
+export default Todo;
