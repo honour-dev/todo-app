@@ -24,11 +24,7 @@ const Todo = () => {
 
   const handleCheck = (e) =>{
     const checked = e.target.checked;
-
     checked ? e.target.parentElement.style.textDecoration = 'line-through' : e.target.parentElement.style.textDecoration = 'none';
-    // if(e.target.checked){
-    //   e.target.parentElement.style.textDecoration = 'line-through';
-    //   e.target.parentElement.style.color = 'gray';
     }
 
   return (
@@ -42,7 +38,7 @@ const Todo = () => {
             {tasks.map((task)=>(
               <div key={task.id} className='text-[1.1rem] flex-1 flex justify-between items-center'>
                 <p className='font-medium whitespace-normal text-left'>
-                  <input type="checkbox" className='mr-1' onClick={handleCheck}/>
+                  <input type="checkbox" className='mr-1 accent-green-800' onClick={handleCheck}/>
                   {task.text}
                 </p>
                 <FaTrashAlt className='text-red-700 cursor-pointer items-start shrink-0' onClick={()=>removeTask(task.id)}/>          
