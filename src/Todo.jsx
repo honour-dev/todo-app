@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import  {FaTrashAlt} from 'react-icons/fa';
 
@@ -10,7 +10,19 @@ const Todo = () => {
   const uniqueId = uuidv4();
 
   const [tasks, setTasks] = useState([]);
+
+  // loading tasks from local storage
+  useEffect(()=>{
+    const savedTasks = localStorage.getItem('myTasks');
+    savedTasks ? setTasks(JSON.parse(savedTasks)): null;
+  }, []);
+
+  // saving tasks to local storage
+  useEffect(()=>{
+    tasks ? localStorage.setItem('myTasks', JSON.stringify(tasks)) : localStorage.removeItem('myTasks');
+  }, [tasks]);
   
+  // addition of tasks
   const addTask = () =>{
     const taskInput = document.getElementById('taskInput');
     const newTask = taskInput.value;
@@ -18,10 +30,12 @@ const Todo = () => {
     newTask.trim() === '' ? alert('type in a task') : setTasks([...tasks, {id: uniqueId, text: newTask}]);
   };
   
+  // removal of tasks
   const removeTask = (id) =>{
     setTasks(tasks.filter((task)=>task.id !== id));
   }
 
+  // function to handle checkbox
   const handleCheck = (e) =>{
     const checked = e.target.checked;
     checked ? e.target.parentElement.style.textDecoration = 'line-through' : e.target.parentElement.style.textDecoration = 'none';
@@ -34,7 +48,8 @@ const Todo = () => {
         Website todo
         </h2>
         <div className='border-green-800 border-2 p-[2rem]'>
-          <div  className="mt-5 mb-6 list-disc pl-2">
+          {tasks.length > 0 ? 
+            <div  className="mt-5 mb-6 list-disc pl-2">            
             {tasks.map((task)=>(
               <div key={task.id} className='text-[1.1rem] flex-1 flex justify-between items-center'>
                 <p className='font-medium whitespace-normal text-left'>
@@ -44,9 +59,10 @@ const Todo = () => {
                 <FaTrashAlt className='text-red-700 cursor-pointer items-start shrink-0' onClick={()=>removeTask(task.id)}/>          
               </div>
             ))}
-          </div>
+          </div> : <p className='text-[1.2rem] italic pt-6 pb-6 text-green-800 opacity-35 font-semibold'>No tasks yet, type something...</p> }
           <div>
-            <input type="text" placeholder='Enter a task...' id='taskInput' className='border-2 border-green-800 pl-1 rounded-md ml-2 p-[.2rem] mb-3'/>
+            {/* add button */}
+            <input type="text" placeholder='Enter a task...' id='taskInput' className='border-2 placeholder:italic border-green-800 pl-1 rounded-md ml-2 p-[.2rem] mb-3'/>
             <button className='bg-green-800 text-white pl-3 pr-3 p-1 ml-2 font-medium cursor-pointer hover:bg-green-600 duration-300 rounded-3xl' onClick={addTask}>+ Add task</button>
           </div>
         </div>
