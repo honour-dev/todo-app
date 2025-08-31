@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import  {FaTrashAlt} from 'react-icons/fa';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-// 'apple',
-    // 'pineapple',
-    // 'banana',
-    // 'avocado',
 const Todo = () => {
   const uniqueId = uuidv4();
 
@@ -27,22 +25,24 @@ const Todo = () => {
     const taskInput = document.getElementById('taskInput');
     const newTask = taskInput.value;
     taskInput.value = '';
-    newTask.trim() === '' ? alert('type in a task') : setTasks([...tasks, {id: uniqueId, text: newTask}]);
+    newTask.trim() === '' ? toast.error('type in a task') : setTasks([...tasks, {id: uniqueId, text: newTask}]);
   };
   
   // removal of tasks
   const removeTask = (id) =>{
     setTasks(tasks.filter((task)=>task.id !== id));
+    toast.success('task removed');
   }
 
   // function to handle checkbox
   const handleCheck = (e) =>{
     const checked = e.target.checked;
-    checked ? e.target.parentElement.style.textDecoration = 'line-through' : e.target.parentElement.style.textDecoration = 'none';
+    checked ? (e.target.parentElement.style.textDecoration = 'line-through', toast.success('task done, well done!')) : e.target.parentElement.style.textDecoration = 'none';
     }
 
   return (
     <main className='text-center flex h-screen'>
+      <ToastContainer position="top-center" autoClose={2000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="light"/>
       <article className='place-content-center m-auto max-w-xl pl-4 pr-4'>
         <h2 className=" text-[1.3rem] p-2 font-bold bg-green-800 text-white mb-4">
         Website todo
